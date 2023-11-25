@@ -1,0 +1,26 @@
+.menu {
+  padding-left: 1em;
+  a{
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    display: block;
+    text-decoration: none;
+    color: black;
+    font-size: 1.5rem;
+    padding: .2em 0;
+    transition: 80ms ease;
+    &:hover{
+      font-weight: 500;
+      font-size: 1.7rem;
+    }
+  }
+  a.active{
+    font-weight: 700;
+    opacity: .6;
+    pointer-events: none;
+  }
+  div{
+    padding-bottom: 1.5em;
+  }
+  width: 100%;
+}
