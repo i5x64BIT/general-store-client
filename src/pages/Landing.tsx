@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import Header from "../components/Header";
+import "./Landing.scss";
+import { IProduct } from "../types/interfaces";
 
-interface IProduct {
-  name: String;
-  desc: String;
-}
 export default function Landing() {
   const [products, setProducts] = useState<IProduct[]>([]);
 
@@ -22,7 +20,7 @@ export default function Landing() {
 
   const items = products.map((p) => (
     <div className="product">
-      <img src={p.images[1]} />
+      <img src={p.images![1]} />
       <p>{p.name}</p>
       <p>{p.basePrice}</p>
     </div>
@@ -38,16 +36,18 @@ export default function Landing() {
             quality goods that transcend borders, bringing the best to you, no
             matter the distance.
           </h2>
-          <a className="btn btn-primary" href="#products">Browse Products</a>
+          <a className="btn btn-primary" href="#products">
+            Browse Products
+          </a>
         </div>
         <div>
           {products.length ? (
             <img
-              src={products[0].images[1]}
+              src={products[0].images![1]}
               alt={products[0].name.toString()}
             />
           ) : (
-            <img/>
+            <img />
           )}
         </div>
       </section>

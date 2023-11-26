@@ -1,0 +1,23 @@
+.hero {
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: 3fr 2fr;
+  gap: 3em;
+  align-items: center;
+  min-height: 80dvh;
+  img {
+    min-width: 100%;
+  }
+  h1 {
+    font-family: "Fuzzy Bubbles", sans-serif;
+    font-size: 4rem;
+    margin: 0;
+    padding-bottom: 0.5em;
+  }
+  h2 {
+    font-family: "Inter";
+    font-weight: 200;
+    font-size: 1.5rem;
+    padding-bottom: 4em;
+  }
+}

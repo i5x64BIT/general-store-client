@@ -2,20 +2,18 @@ import Errors from "./Errors";
 
 const getSuppliers = async () => {
   const res = await fetch("http://localhost:3030/api/v1/suppliers/", {
-    method: "PUT",
+    method: "GET",
     headers: {
-      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
-    body: JSON.stringify({
-      token: localStorage.getItem("token"),
-    }),
   });
   if (res.ok) {
-    const data = await res.json();
-    return data;
+    return await res.json();
   } else {
     const data = await res.json();
-    throw new Errors.TokenExpiredError(data.messege);
+    if (data.messege === "Token Expired") {
+      throw new Errors.TokenExpiredError(data.messege);
+    } else throw new Error(data.messege);
   }
 };
 

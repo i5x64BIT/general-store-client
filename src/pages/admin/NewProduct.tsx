@@ -1,30 +1,30 @@
 // pages/Admin/NewProductPage.js
 
-import { EventHandler, FormEvent, useEffect, useState } from "react";
-import Products from "../../services/Products";
+import {
+  ChangeEvent,
+  ChangeEventHandler,
+  MouseEventHandler,
+  useEffect,
+  useState,
+} from "react";
+import ProductService from "../../services/Products";
 import SupplierService from "../../services/Suppliers";
 import Errors from "../../services/Errors";
 import { useNavigate } from "react-router-dom";
+import { IProduct, ISupplier } from "../../types/interfaces";
+import DiscountSelector from "../../components/admin/DiscountSelector";
 
 export default function NewProduct() {
-  const [newProduct, setNewProduct] = useState({
-    enabled: true,
+  const [newProduct, setNewProduct] = useState<IProduct>({
+    isEnabled: false,
     name: "",
     description: "",
-    supplier: "",
+    supplier: null,
     tags: [],
     basePrice: 0,
-    activeDiscounts: [],
   });
+  const [suppliers, setSuppliers] = useState<ISupplier[]>([]);
   const navigate = useNavigate();
-  const [suppliers, setSuppliers] = useState([]);
-  const errorHandler = (e: Error) => {
-    if (e instanceof Errors.TokenExpiredError) {
-      navigate("/user/login");
-    } else {
-      alert(e.message);
-    }
-  };
   useEffect(() => {
     SupplierService.getSuppliers()
       .then((res) =>
@@ -33,38 +33,46 @@ export default function NewProduct() {
       .catch((e) => errorHandler(e));
   }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const errorHandler = (e: Error) => {
+    if (e instanceof Errors.TokenExpiredError) {
+      navigate("/user/login");
+    } else {
+      alert(e.message);
+    }
+  };
+  const handleInputChange: ChangeEventHandler = (e) => {
+    const { name, value } = e.target as HTMLInputElement;
     setNewProduct((prevProduct) => ({
       ...prevProduct,
       [name]: value,
     }));
   };
-
-  const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target;
+  const handleCheckboxChange: ChangeEventHandler = (e) => {
+    const { name, checked } = e.target as HTMLInputElement;
     setNewProduct((prevProduct) => ({
       ...prevProduct,
       [name]: checked,
     }));
   };
-
-  const handleTagsChange = (e) => {
-    const { value } = e.target;
+  const handleTagsChange: ChangeEventHandler = (e: ChangeEvent) => {
+    const { value } = e.target as HTMLInputElement;
     const tagsArray = value.split(",").map((tag) => tag.trim());
     setNewProduct((prevProduct) => ({
       ...prevProduct,
       tags: tagsArray,
     }));
   };
-
-  const handleSave = async () => {
+  const handleSave: MouseEventHandler<HTMLButtonElement> = async (e) => {
     try {
-      const res = await Products.createProduct(newProduct);
+      e.preventDefault();
+      await ProductService.createProduct(newProduct);
+      alert(`The product ${newProduct.name} was added successfully!`);
+      navigate("/admin/products");
     } catch (error) {
       console.error("Error saving new product:", error);
     }
   };
+
   return (
     <div>
       <h1>New Product</h1>
@@ -75,7 +83,7 @@ export default function NewProduct() {
             type="checkbox"
             id="enabled"
             name="enabled"
-            checked={newProduct.enabled}
+            checked={newProduct.isEnabled}
             onChange={handleCheckboxChange}
           />
         </div>
@@ -103,7 +111,7 @@ export default function NewProduct() {
           <select
             id="supplier"
             name="supplier"
-            value={newProduct.supplier}
+            value={newProduct.supplier ? newProduct.supplier._id : ""}
             onChange={handleInputChange}
           >
             {suppliers.map((s) => (
@@ -134,13 +142,14 @@ export default function NewProduct() {
         </div>
         <div>
           <label htmlFor="activeDiscounts">Active Discounts:</label>
+          { newProduct.activeDiscounts ? 
           <input
             type="text"
             id="activeDiscounts"
             name="activeDiscounts"
             value={newProduct.activeDiscounts.join(",")}
             onChange={handleInputChange}
-          />
+          /> : <DiscountSelector />}
         </div>
         <button className="btn btn-primary" type="button" onClick={handleSave}>
           Save

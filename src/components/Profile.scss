@@ -1,0 +1,47 @@
+.profile-container {
+  background-color: white;
+  display: block;
+  position: relative;
+  $radius: 0 15px 15px 0;
+  $border: 1px solid rgb(197, 196, 196);
+  & > * {
+    height: 100%;
+    padding: 0.2em;
+  }
+  & > button {
+    appearance: none;
+    border: $border;
+    border-radius: $radius;
+    margin: 0;
+    padding-inline: 0.8em;
+    background-color: lightgray;
+  }
+  .profile-window {
+    position: absolute;
+    align-items: center;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 0fr;
+    min-width: max-content;
+    right: 100%;
+    top: 0;
+    box-sizing: border-box;
+    border: $border;
+    border-radius: 5px 0 0 5px;
+    transition: ease-out 300ms;
+    background-color: lightgray;
+    overflow: hidden;
+    padding: 0;
+    div {
+      gap: 10px;
+      display: flex;
+      overflow: hidden;
+      height: 100%;
+      align-items: center;
+    }
+  }
+  .profile-window.active {
+    grid-template-columns: 1fr;
+    background-color: white;
+  }
+}

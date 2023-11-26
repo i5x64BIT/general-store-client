@@ -1,12 +1,5 @@
-interface IProduct {
-  _id?: string;
-  name: string;
-  description?: string;
-  supplier: string;
-  tags?: string[];
-  basePrice: number;
-  activeDiscounts?: string[];
-}
+import { IProduct } from "../types/interfaces";
+
 const createProduct = async (product: IProduct) => {
   const res = await fetch("http://localhost:3030/api/v1/product/", {
     method: "POST",

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import tokens from "../services/Tokens";
 import { NavLink } from "react-router-dom";
+import "./Profile.scss";
 
 export default function Profile() {
   const [isActive, setActive] = useState(false);

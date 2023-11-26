@@ -1,6 +1,6 @@
 const getToken = async (email: string, password: string) => {
   const res = await fetch("http://localhost:3030/api/v1/user/login", {
-    method: "POST",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
@@ -42,7 +42,6 @@ const deleteToken = async (token: string) => {
     body: JSON.stringify({token}),
   });
   if (res.ok) {
-    const data = await res.json();
     localStorage.removeItem("token");
     localStorage.removeItem("user");
   } else {

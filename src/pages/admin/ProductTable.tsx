@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import { IProduct } from "../../types/interfaces";
 
 export default function ProductTable({
@@ -27,12 +28,18 @@ export default function ProductTable({
           <tr key={product._id}>
             <td>{product._id}</td>
             <td>
-              <img src={product.images[1]} />
+              {product.images?.length ? (
+                <img src={product.images[1]} />
+              ) : (
+                <NavLink to={`/admin/products/${product._id}/edit`}>
+                  Add Image
+                </NavLink>
+              )}
             </td>
             <td>{product.name}</td>
-            <td>{product.enabled ? "Yes" : "No"}</td>
+            <td>{product.isEnabled ? "Yes" : "No"}</td>
             <td>{product.description}</td>
-            <td>{product.supplier.companyName}</td>
+            <td>{product.supplier!.companyName}</td>
             <td>{product.tags.join(", ")}</td>
             <td>{product.basePrice}</td>
             <td>

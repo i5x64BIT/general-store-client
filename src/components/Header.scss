@@ -1,0 +1,25 @@
+.header {
+  display: flex;
+  min-width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  nav {
+    display: flex;
+    gap: 1.4em;
+    a {
+      text-decoration: none;
+      color: black;
+      transition: 200ms ease;
+      font-size: 1.2rem;
+      &.active {
+        font-weight: 600;
+        opacity: 0.6;
+        pointer-events: none;
+      }
+      &:hover {
+        border-bottom: 1px solid black;
+        scale: 1.05;
+      }
+    }
+  }
+}

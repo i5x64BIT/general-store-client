@@ -1,11 +1,12 @@
 import { NavLink } from "react-router-dom";
 import Cart from "./Cart";
 import Profile from "./Profile";
+import "./Header.scss";
 
 export default function Header() {
-  const user = localStorage.getItem('user');
+  const user = localStorage.getItem("user");
   let role;
-  if(user){
+  if (user) {
     role === JSON.parse(user).role;
   }
   return (
@@ -17,7 +18,7 @@ export default function Header() {
         <NavLink to="./about">About</NavLink>
       </nav>
       <div>
-        <Profile role={role}/>
+        <Profile />
         <Cart />
       </div>
     </div>

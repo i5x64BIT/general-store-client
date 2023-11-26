@@ -21,7 +21,7 @@ export default function Login() {
   }
 
   return (
-    <form action="/user/login" method="put">
+    <form>
       <input
         type="text"
         name="email"
