@@ -7,8 +7,8 @@ import Landing from "./pages/Landing";
 import Admin from "./pages/admin/Admin";
 import Dashboard from "./components/Dashboard";
 import { Navigate } from "react-router-dom";
-import Products from "./pages/admin/AdminProducts";
-import NewProduct from "./pages/admin/NewProduct";
+import Products from "./pages/admin/Product/AdminProducts";
+import NewProduct from "./pages/admin/Product/NewProduct";
 import Login from "./pages/Login";
 
 const router = createBrowserRouter([

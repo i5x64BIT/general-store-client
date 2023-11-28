@@ -5,14 +5,15 @@ import {
   ChangeEventHandler,
   MouseEventHandler,
   useEffect,
+  useRef,
   useState,
 } from "react";
-import ProductService from "../../services/Products";
-import SupplierService from "../../services/Suppliers";
-import Errors from "../../services/Errors";
+import ProductService from "../../../services/Products";
+import SupplierService from "../../../services/Suppliers";
+import Errors from "../../../services/Errors";
 import { useNavigate } from "react-router-dom";
-import { IProduct, ISupplier } from "../../types/interfaces";
-import DiscountSelector from "../../components/admin/DiscountSelector";
+import { IProduct, ISupplier } from "../../../types/interfaces";
+import DiscountSelector from "../../../components/admin/DiscountSelector";
 
 export default function NewProduct() {
   const [newProduct, setNewProduct] = useState<IProduct>({
@@ -23,7 +24,21 @@ export default function NewProduct() {
     tags: [],
     basePrice: 0,
   });
+  const [images, setImages] = useState<File[]>([]);
   const [suppliers, setSuppliers] = useState<ISupplier[]>([]);
+  const formRef = useRef(null);
+
+  const imageHandler: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const files = [];
+    if (e.target.files?.length) {
+      (async () => {
+        for (let i of e.target.files!) {
+          files.push(i);
+        }
+        setImages(files);
+      })();
+    }
+  };
   const navigate = useNavigate();
   useEffect(() => {
     SupplierService.getSuppliers()
@@ -65,7 +80,14 @@ export default function NewProduct() {
   const handleSave: MouseEventHandler<HTMLButtonElement> = async (e) => {
     try {
       e.preventDefault();
-      await ProductService.createProduct(newProduct);
+      const fd = new FormData();
+
+      fd.append("product", JSON.stringify(newProduct));
+      for (let i of images) {
+        fd.append("images", i);
+      }
+
+      await ProductService.createProduct(fd);
       alert(`The product ${newProduct.name} was added successfully!`);
       navigate("/admin/products");
     } catch (error) {
@@ -76,13 +98,25 @@ export default function NewProduct() {
   return (
     <div>
       <h1>New Product</h1>
-      <form>
+      <form ref={formRef}>
+        <div>
+          <label>
+            Upload An Image
+            <input
+              type="file"
+              name="image"
+              accept=".jpg, .jpeg, .png"
+              multiple
+              onChange={imageHandler}
+            />
+          </label>
+        </div>
         <div>
           <label htmlFor="enabled">Enabled:</label>
           <input
             type="checkbox"
             id="enabled"
-            name="enabled"
+            name="isEnabled"
             checked={newProduct.isEnabled}
             onChange={handleCheckboxChange}
           />
@@ -142,14 +176,17 @@ export default function NewProduct() {
         </div>
         <div>
           <label htmlFor="activeDiscounts">Active Discounts:</label>
-          { newProduct.activeDiscounts ? 
-          <input
-            type="text"
-            id="activeDiscounts"
-            name="activeDiscounts"
-            value={newProduct.activeDiscounts.join(",")}
-            onChange={handleInputChange}
-          /> : <DiscountSelector />}
+          {newProduct.activeDiscounts ? (
+            <input
+              type="text"
+              id="activeDiscounts"
+              name="activeDiscounts"
+              value={newProduct.activeDiscounts.join(",")}
+              onChange={handleInputChange}
+            />
+          ) : (
+            <DiscountSelector />
+          )}
         </div>
         <button className="btn btn-primary" type="button" onClick={handleSave}>
           Save

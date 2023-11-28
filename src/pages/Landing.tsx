@@ -20,7 +20,7 @@ export default function Landing() {
 
   const items = products.map((p) => (
     <div className="product">
-      <img src={p.images![1]} />
+      <img src={p.images![0]} />
       <p>{p.name}</p>
       <p>{p.basePrice}</p>
     </div>
@@ -43,7 +43,7 @@ export default function Landing() {
         <div>
           {products.length ? (
             <img
-              src={products[0].images![1]}
+              src={products[0].images![0]}
               alt={products[0].name.toString()}
             />
           ) : (

@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { IProduct } from "../../types/interfaces";
+import { IProduct } from "../../../types/interfaces";
 
 export default function ProductTable({
   products,
@@ -7,7 +7,7 @@ export default function ProductTable({
   products: IProduct[] | null;
 }) {
   return !products ? (
-    <p>Loadin Products</p>
+    <p>Loading Products</p>
   ) : (
     <table>
       <thead>
@@ -29,7 +29,7 @@ export default function ProductTable({
             <td>{product._id}</td>
             <td>
               {product.images?.length ? (
-                <img src={product.images[1]} />
+                <img src={product.images[0] as string} />
               ) : (
                 <NavLink to={`/admin/products/${product._id}/edit`}>
                   Add Image

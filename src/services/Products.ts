@@ -1,15 +1,11 @@
-import { IProduct } from "../types/interfaces";
 
-const createProduct = async (product: IProduct) => {
+const createProduct = async (formData: FormData) => {
   const res = await fetch("http://localhost:3030/api/v1/product/", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
-    body: JSON.stringify({
-      token: localStorage.getItem("token"),
-      product,
-    }),
+    body: formData
   });
   if (res.ok) {
     return "Product added successfully";

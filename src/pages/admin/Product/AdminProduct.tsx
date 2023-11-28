@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IProduct } from "../../types/interfaces";
+import { IProduct } from "../../../types/interfaces";
 
 export default function ({ product }: { product: IProduct }) {
   const [newProduct, setNewProduct] = useState<IProduct | any>(

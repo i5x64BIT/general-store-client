@@ -1,6 +1,6 @@
 interface IProduct {
   _id?: string;
-  images?: string[];
+  images?: File[] | string[];
   name: string;
   isEnabled: boolean;
   description: string;
