@@ -1,3 +1,7 @@
+interface IPayload {
+  _id: string;
+  role: string;
+}
 interface IProduct {
   _id?: string;
   images?: File[] | string[];
@@ -17,6 +21,10 @@ interface ISupplier {
   contractStart?: number;
   contractEnd?: number;
 }
+interface IUser {
+  _id: string;
+  role: string;
+}
 interface IDiscount {
   _id?: string;
   name: string;
@@ -28,4 +36,4 @@ interface IDiscount {
   discountValue: number;
 }
 
-export type { IProduct, ISupplier, IDiscount };
+export type { IProduct, ISupplier, IUser, IDiscount, IPayload };

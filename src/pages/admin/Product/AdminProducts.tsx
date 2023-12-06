@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import { IProduct } from "../../../types/interfaces";
 import ProductTable from "./ProductTable";
+import { getProducts } from "../../../services/Products";
 
 export default function Products() {
-  const [products, setProducts] = useState<IProduct[] | null>(null);
+  const prevProducts = localStorage.getItem("products");
+  const [products, setProducts] = useState<IProduct[]>(
+    prevProducts ? JSON.parse(prevProducts) : []
+  );
   useEffect(() => {
-    (async () => {
-      const res = await fetch("http://localhost:3030/api/v1/products", {
-        mode: "cors",
-      });
-      const data: IProduct[] = await res.json();
-      setProducts(data);
-    })();
+    const localProducts = localStorage.getItem("products");
+    localProducts
+      ? setProducts(JSON.parse(localProducts))
+      : getProducts().then((p) => setProducts(p));
   }, []);
 
   return (

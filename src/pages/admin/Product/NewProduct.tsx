@@ -8,26 +8,34 @@ import {
   useRef,
   useState,
 } from "react";
-import ProductService from "../../../services/Products";
 import SupplierService from "../../../services/Suppliers";
 import Errors from "../../../services/Errors";
 import { useNavigate } from "react-router-dom";
 import { IProduct, ISupplier } from "../../../types/interfaces";
 import DiscountSelector from "../../../components/admin/DiscountSelector";
+import { createProduct } from "../../../services/Products";
 
 export default function NewProduct() {
-  const [newProduct, setNewProduct] = useState<IProduct>({
+  const savedProduct = localStorage.getItem("newProduct");
+  const productSchema = {
     isEnabled: false,
     name: "",
     description: "",
     supplier: null,
     tags: [],
     basePrice: 0,
-  });
+  };
+  const [newProduct, setNewProduct] = useState<IProduct>(
+    savedProduct ? JSON.parse(savedProduct) : productSchema
+  );
   const [images, setImages] = useState<File[]>([]);
   const [suppliers, setSuppliers] = useState<ISupplier[]>([]);
   const formRef = useRef(null);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    localStorage.setItem("newProduct", JSON.stringify(newProduct));
+  }, [newProduct]);
   const imageHandler: ChangeEventHandler<HTMLInputElement> = (e) => {
     const files = [];
     if (e.target.files?.length) {
@@ -39,22 +47,18 @@ export default function NewProduct() {
       })();
     }
   };
-  const navigate = useNavigate();
   useEffect(() => {
     SupplierService.getSuppliers()
       .then((res) =>
         res.suppliers ? setSuppliers(res.suppliers) : alert(res.messege)
       )
-      .catch((e) => errorHandler(e));
+      .catch((e) =>
+        e instanceof Errors.TokenExpiredError
+          ? navigate("/user/login")
+          : alert(e.message)
+      );
   }, []);
 
-  const errorHandler = (e: Error) => {
-    if (e instanceof Errors.TokenExpiredError) {
-      navigate("/user/login");
-    } else {
-      alert(e.message);
-    }
-  };
   const handleInputChange: ChangeEventHandler = (e) => {
     const { name, value } = e.target as HTMLInputElement;
     setNewProduct((prevProduct) => ({
@@ -87,14 +91,16 @@ export default function NewProduct() {
         fd.append("images", i);
       }
 
-      await ProductService.createProduct(fd);
+      await createProduct(fd);
       alert(`The product ${newProduct.name} was added successfully!`);
       navigate("/admin/products");
     } catch (error) {
       console.error("Error saving new product:", error);
     }
   };
-
+  const handleReset = () => {
+    localStorage.removeItem("newProduct");
+  };
   return (
     <div>
       <h1>New Product</h1>
@@ -148,8 +154,9 @@ export default function NewProduct() {
             value={newProduct.supplier ? newProduct.supplier._id : ""}
             onChange={handleInputChange}
           >
+            <option disabled={newProduct.supplier ? true : false}>-</option>
             {suppliers.map((s) => (
-              <option value={s._id}>{s.companyName}</option>
+              <option key={s._id} value={s._id}>{s.companyName}</option>
             ))}
           </select>
         </div>
@@ -188,8 +195,11 @@ export default function NewProduct() {
             <DiscountSelector />
           )}
         </div>
-        <button className="btn btn-primary" type="button" onClick={handleSave}>
+        <button className="btn btn-primary" onClick={handleSave}>
           Save
+        </button>
+        <button className="btn" onClick={handleReset}>
+          Reset
         </button>
       </form>
     </div>

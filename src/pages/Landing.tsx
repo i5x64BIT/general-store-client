@@ -2,25 +2,21 @@ import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import "./Landing.scss";
 import { IProduct } from "../types/interfaces";
+import { getProducts } from "../services/Products";
+("../services/Products");
 
 export default function Landing() {
-  const [products, setProducts] = useState<IProduct[]>([]);
-
+  const prevProducts = localStorage.getItem("products");
+  const [products, setProducts] = useState<IProduct[]>(
+    prevProducts ? JSON.parse(prevProducts) : []
+  );
   useEffect(() => {
-    (async () => {
-      const res = await fetch("http://localhost:3030/api/v1/products");
-      const data = await res.json();
-      if (res.ok) {
-        setProducts(data);
-      } else {
-        alert(data.messege);
-      }
-    })();
+    getProducts().then((p) => setProducts(p));
   }, []);
 
   const items = products.map((p) => (
     <div className="product">
-      <img src={p.images![0]} />
+      <img src={p.images ? (p.images[0] as string) : "../../public/vite.svg"} />
       <p>{p.name}</p>
       <p>{p.basePrice}</p>
     </div>
@@ -42,9 +38,13 @@ export default function Landing() {
         </div>
         <div>
           {products.length ? (
+            // TODO ProductCards
             <img
-              src={products[0].images![0]}
-              alt={products[0].name.toString()}
+              src={
+                products[0].images
+                  ? (products[0].images![0] as string)
+                  : "../../public/vite.svg"
+              }
             />
           ) : (
             <img />
@@ -52,7 +52,7 @@ export default function Landing() {
         </div>
       </section>
       <section id="#products">
-        <p>{items || "Loadin Products..."}</p>
+        <p>{items || "Loading Products..."}</p>
       </section>
     </div>
   );

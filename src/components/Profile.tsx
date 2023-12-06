@@ -1,19 +1,26 @@
 import { useState } from "react";
-import tokens from "../services/Tokens";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./Profile.scss";
+import useAuth from "../hooks/useAuth";
 
 export default function Profile() {
   const [isActive, setActive] = useState(false);
+  const { logout } = useAuth();
   const user = JSON.parse(localStorage.getItem("user")!);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout().then((isLoggedOut) => {
+      isLoggedOut ? navigate("/") : alert("Could not logout, try again");
+    });
+  };
 
   let container = (
     <NavLink to="/user/login" className="btn">
       Sign In
     </NavLink>
   );
-  const token = localStorage.getItem("token");
-  if (token) {
+  if (user) {
     container = (
       <>
         <p>{user.email}</p>
@@ -24,16 +31,7 @@ export default function Profile() {
         ) : (
           ""
         )}
-        <button
-          className="btn"
-          onClick={() => {
-            try {
-              tokens.deleteToken(token);
-            } catch (e) {
-              alert(e);
-            }
-          }}
-        >
+        <button className="btn" onClick={handleLogout}>
           Logout
         </button>
       </>

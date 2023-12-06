@@ -1,11 +1,8 @@
-
 const createProduct = async (formData: FormData) => {
   const res = await fetch("http://localhost:3030/api/v1/product/", {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-    body: formData
+    credentials: "include",
+    body: formData,
   });
   if (res.ok) {
     return "Product added successfully";
@@ -14,5 +11,14 @@ const createProduct = async (formData: FormData) => {
     throw new Error(data.messege);
   }
 };
-
-export default { createProduct };
+const getProducts = async () => {
+  const res = await fetch("http://localhost:3030/api/v1/products");
+  const data = await res.json();
+  if (res.ok) {
+    localStorage.setItem("products", JSON.stringify(data));
+    return data;
+  } else {
+    throw new Error(data.messege);
+  }
+};
+export { createProduct, getProducts };

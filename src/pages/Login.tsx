@@ -1,24 +1,22 @@
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
-import tokens from "../services/Tokens";
+import { useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 export default function Login() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [done, setDone] = useState(false);
+  const prevUrl = useLocation().state?.from;
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handler = async (event: any) => {
     event.preventDefault();
-    try {
-      tokens.getToken(email, password).then(() => setDone(true));
-    } catch (e) {
-      alert(e);
-    }
+    login(email, password).then((isLoginSuccessful) => {
+      isLoginSuccessful
+        ? navigate(prevUrl || "/", { replace: true })
+        : alert("Email or password is incorrect");
+    });
   };
-
-  if (done) {
-    return <Navigate to={"/"} />;
-  }
 
   return (
     <form>
