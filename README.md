@@ -1,27 +1,16 @@
-# React + TypeScript + Vite
+# General Store Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This client design was inspired by Israeli e-commerce web stores (thus being general 🤓).
 
-Currently, two official plugins are available:
+Currently the client is <b>not configurable</b> due to some hard coded values on the API and a lack of a clear vision of the finished product.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Configuration
 
-## Expanding the ESLint configuration
+As mentioned, there is no configuration currently supported for this project.
+Feel free to check out [the API](https://github.com/i5x64BIT/general-store-api).
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Setup
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Run `npm install` to install dependencies.
+- Run `npm run dev` for local development.
+- Run `npm run build` to build.
