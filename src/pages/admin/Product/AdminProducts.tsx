@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { IProduct } from "../../../types/interfaces";
 import ProductTable from "./ProductTable";
-import { getProducts } from "../../../services/Products";
+import useProducts from "../../../hooks/useProducts";
 
 export default function Products() {
   const prevProducts = localStorage.getItem("products");
   const [products, setProducts] = useState<IProduct[]>(
     prevProducts ? JSON.parse(prevProducts) : []
   );
+  const { getProducts } = useProducts();
   useEffect(() => {
     const localProducts = localStorage.getItem("products");
     localProducts

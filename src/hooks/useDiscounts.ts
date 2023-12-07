@@ -1,8 +1,7 @@
-const DiscountService = {
-  getDiscounts: async () => {
+export default function useDiscounts() {
+  const getDiscounts = async () => {
     const res = await fetch("http://localhost:3030/api/v1/discounts/", {
       method: "PUT",
-      credentials: "include",
     });
     if (res.ok) {
       return await res.json();
@@ -10,7 +9,6 @@ const DiscountService = {
       const data = await res.json();
       throw new Error(data.messege);
     }
-  },
-};
-
-export default DiscountService;
+  };
+  return { getDiscounts };
+}

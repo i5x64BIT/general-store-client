@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import "./Landing.scss";
 import { IProduct } from "../types/interfaces";
-import { getProducts } from "../services/Products";
+import useProducts from "../hooks/useProducts";
 ("../services/Products");
 
 export default function Landing() {
   const prevProducts = localStorage.getItem("products");
+  const { getProducts } = useProducts();
   const [products, setProducts] = useState<IProduct[]>(
     prevProducts ? JSON.parse(prevProducts) : []
   );

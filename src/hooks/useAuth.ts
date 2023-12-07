@@ -6,6 +6,11 @@ export default function useAuth() {
     token: string;
     setToken: (newToken: string) => void;
   };
+  const headers: HeadersInit = token
+      ? {
+          Authorization: `Bearer ${token}`,
+        }
+      : {};
 
   const logout = async () => {
     setToken("");
@@ -69,5 +74,5 @@ export default function useAuth() {
     }
   };
 
-  return { token, login, logout, refresh };
+  return { token, headers, login, logout, refresh };
 }

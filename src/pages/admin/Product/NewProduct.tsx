@@ -8,12 +8,12 @@ import {
   useRef,
   useState,
 } from "react";
-import SupplierService from "../../../services/Suppliers";
 import Errors from "../../../services/Errors";
 import { useNavigate } from "react-router-dom";
 import { IProduct, ISupplier } from "../../../types/interfaces";
 import DiscountSelector from "../../../components/admin/DiscountSelector";
-import { createProduct } from "../../../services/Products";
+import useSuppliers from "../../../hooks/useSuppliers";
+import useProducts from "../../../hooks/useProducts";
 
 export default function NewProduct() {
   const savedProduct = localStorage.getItem("newProduct");
@@ -30,6 +30,8 @@ export default function NewProduct() {
   );
   const [images, setImages] = useState<File[]>([]);
   const [suppliers, setSuppliers] = useState<ISupplier[]>([]);
+  const { getSuppliers } = useSuppliers();
+  const { createProduct } = useProducts();
   const formRef = useRef(null);
   const navigate = useNavigate();
 
@@ -48,7 +50,7 @@ export default function NewProduct() {
     }
   };
   useEffect(() => {
-    SupplierService.getSuppliers()
+    getSuppliers()
       .then((res) =>
         res.suppliers ? setSuppliers(res.suppliers) : alert(res.messege)
       )
@@ -156,7 +158,9 @@ export default function NewProduct() {
           >
             <option disabled={newProduct.supplier ? true : false}>-</option>
             {suppliers.map((s) => (
-              <option key={s._id} value={s._id}>{s.companyName}</option>
+              <option key={s._id} value={s._id}>
+                {s.companyName}
+              </option>
             ))}
           </select>
         </div>

@@ -1,13 +1,13 @@
 import { ChangeEventHandler, useEffect, useState } from "react";
 import { IDiscount } from "../../types/interfaces";
-import DiscountService from "../../services/Discounts";
+import useDiscounts from "../../hooks/useDiscounts";
 
 export default function DiscountSelector() {
   const [discounts, setDiscounts] = useState<IDiscount[]>([]);
   const [newDiscount, setNewDiscount] = useState({});
-
+  const { getDiscounts } = useDiscounts();
   useEffect(() => {
-    DiscountService.getDiscounts().then((data) => setDiscounts(data));
+    getDiscounts().then((data) => setDiscounts(data));
   }, []);
 
   const changeHandler: ChangeEventHandler<
