@@ -1,4 +1,3 @@
-// Inter Font
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 #root {
@@ -35,75 +34,4 @@ body {
 
 .products {
   display: block;
-}
-/* Reset some default browser styles */
-body,
-table {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-/* Style the table */
-table {
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-/* Style the table header */
-thead {
-  background-color: #f2f2f2;
-}
-
-th,
-td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-
-/* Alternate row background color for better readability */
-tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-/* Add some spacing between the table cells */
-th,
-td {
-  padding: 15px;
-}
-tr{
-  height: 100px;
-}
-td img{
-  height: 50px;
-}
-/* Style for the header cells */
-th {
-  background-color: #4caf50;
-  color: white;
-}
-
-/* Style for the 'Enabled' column */
-td:nth-child(2) {
-  text-align: center;
-}
-
-/* Style for the 'Tags' and 'Active Discounts' columns */
-td:nth-child(6),
-td:nth-child(7) {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Style for the 'Active Discounts' column */
-td:nth-child(8) {
-  max-width: 150px;
-}
-
-/* Hover effect on table rows */
-tbody tr:hover {
-  background-color: #e0f7fa;
-  cursor: pointer;
 }

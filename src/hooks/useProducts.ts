@@ -1,8 +1,9 @@
 import useAuth from "./useAuth";
 
 export default function useProducts() {
+  const { token, headers } = useAuth();
+
   const createProduct = async (formData: FormData) => {
-    const { token } = useAuth();
     const res = await fetch("http://localhost:3030/api/v1/product/", {
       method: "POST",
       headers: {
@@ -11,20 +12,23 @@ export default function useProducts() {
       body: formData,
     });
     if (res.ok) {
-      return "Product added successfully";
+      return true;
     } else {
       const data = await res.json();
       throw new Error(data.messege);
     }
   };
-  const getProducts = async () => {
-    const { headers } = useAuth();
-    const res = await fetch("http://localhost:3030/api/v1/products", {
-      headers,
-    });
+  const getProducts = async (offset?: number) => {
+    const res = await fetch(
+      `http://localhost:3030/api/v1/products/${
+        offset ? `?offset=${offset}` : ""
+      }`,
+      {
+        headers,
+      }
+    );
     const data = await res.json();
     if (res.ok) {
-      localStorage.setItem("products", JSON.stringify(data));
       return data;
     } else {
       throw new Error(data.messege);

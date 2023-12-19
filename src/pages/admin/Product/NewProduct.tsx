@@ -51,8 +51,8 @@ export default function NewProduct() {
   };
   useEffect(() => {
     getSuppliers()
-      .then((res) =>
-        res.suppliers ? setSuppliers(res.suppliers) : alert(res.messege)
+      .then((suppliers) =>
+        suppliers ? setSuppliers(suppliers) : alert(suppliers)
       )
       .catch((e) =>
         e instanceof Errors.TokenExpiredError

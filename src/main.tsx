@@ -12,6 +12,8 @@ import NewProduct from "./pages/admin/Product/NewProduct";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthProvider";
+import AdminUsers from "./pages/admin/AdminUsers";
+import AdminSuppliers from "./pages/admin/AdminSuppliers";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +43,14 @@ const router = createBrowserRouter([
           {
             path: "/admin/product/new",
             element: <NewProduct />,
+          },
+          {
+            path: "/admin/users",
+            element: <AdminUsers />,
+          },
+          {
+            path: "/admin/suppliers",
+            element: <AdminSuppliers />,
           },
         ],
       },

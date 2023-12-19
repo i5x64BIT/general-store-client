@@ -2,31 +2,25 @@ import { NavLink } from "react-router-dom";
 import "./Menu.scss";
 
 export default function Menu() {
-  const handleClasses = ({
-    isActive,
-    isPending,
-  }: {
-    isActive: any;
-    isPending: any;
-  }) => (isActive ? "active" : isPending ? "pending" : "");
   return (
     <nav className="menu">
       <div>
-        <NavLink className={handleClasses} to="./dashboard">
+        <NavLink to="./dashboard">
           Dashboard
         </NavLink>
       </div>
       <div>
-        <NavLink className={handleClasses} to="./products">
+        <NavLink to="./products">
           Products
         </NavLink>
-        <a href="./discounts">Discounts & Sales</a>
-        <a href="./invoices">Invoices</a>
+        <NavLink to="./discounts">Discounts & Sales</NavLink>
+        <NavLink to="./invoices">Invoices</NavLink>
       </div>
       <div>
-        <a href="./users">Users</a>
-        <a href="./employees">Employees</a>
-        <a href="./suppliers">Suppliers</a>
+        <NavLink to="./users">Users</NavLink>
+        <NavLink to="./employees">Employees</NavLink>
+        <NavLink to="./suppliers">Suppliers</NavLink>
+        <NavLink to="/">Home</NavLink>
       </div>
     </nav>
   );
