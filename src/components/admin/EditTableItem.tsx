@@ -24,6 +24,7 @@ export default function EditTableItem({
   matcherObject?: { [fieldName: string]: DataMatcher };
 }) {
   const { setEdit, send } = useEdit();
+  const disabledProps = ["_id"];
 
   const getInput = (item: any, prop: string) => {
     if (prop === "images") {
@@ -63,6 +64,7 @@ export default function EditTableItem({
           onChange={() => {
             send();
           }}
+          className={disabledProps.includes(p) ? "disabled" : ""}
         >
           {getInput(item, p)}
         </td>

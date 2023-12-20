@@ -15,25 +15,38 @@ table {
     text-align: left;
     border-bottom: 1px solid #ddd;
   }
-  thead {
-    background-color: #ffc908;
-    pointer-events: none;
-  }
   tr {
     height: 100px;
     transition: 100ms;
-    &:nth-child(even) {
-      background-color: #ddd;
-    }
-    &:hover {
-      z-index: 1;
-      background-color: #ccc;
-      box-shadow: 0 0 5px 1px rgba($color: #000000, $alpha: 0.8);
-      cursor: pointer;
+    td {
+      min-width: 100px;
+      &.disabled {
+        pointer-events: none;
+        color: #8f8f8f;
+      }
     }
   }
-  td {
-    min-width: 100px;
+  thead {
+    background-color: #ffc908;
+    th {
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+  tbody {
+    tr {
+      &:nth-child(even) {
+        background-color: #ddd;
+      }
+      &:hover {
+        z-index: 1;
+        background-color: #ccc;
+        box-shadow: 0 0 5px 1px rgba($color: #000000, $alpha: 0.8);
+        cursor: pointer;
+      }
+    }
   }
 }
 
