@@ -18,7 +18,6 @@ export function EditProvider({ children }: PropsWithChildren) {
       throw new TypeError(
         "NullEditItem: An edit item was not set, use setEdit before using change"
       );
-    setProp(prop);
     setEditItem({ ...editItem, [prop]: value });
   };
   const setEdit = (item: {}, prop: string) => {

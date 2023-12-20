@@ -14,6 +14,8 @@ export default function EditTable({
   items: any[];
   matcherObject?: { [fieldName: string]: DataMatcher };
 }) {
+  items.forEach((i) => delete i.__v);
+
   const [sortedItems, setSortedItems] = useState(items);
   const [sortBy, setSortBy] = useState("");
   const [sort, setSort] = useState(1);

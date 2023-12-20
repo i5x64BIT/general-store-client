@@ -1,5 +1,6 @@
 import { useEdit } from "../../hooks/useEdit";
 import SelectEdit from "./SelectEdit";
+import TextEdit from "./TextEdit";
 
 interface DataMatcher {
   fetchCallback: () => Promise<any[]>;
@@ -52,7 +53,7 @@ export default function EditTableItem({
           displayPropName={match?.fieldNameInNested}
         />
       );
-    } else return item[prop]; // TextEdit
+    } else return <TextEdit item={item} prop={prop} />;
   };
   return (
     <tr key={item._id}>
