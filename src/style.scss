@@ -5,6 +5,10 @@
   max-width: 90%;
   margin: auto;
 }
+body, div{
+  margin: 0;
+  padding: 0;
+}
 $primary: #ffc908;
 .btn {
   box-sizing: border-box;

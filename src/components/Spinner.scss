@@ -1,0 +1,16 @@
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 5px solid #ffc908; /*Default circle color*/
+  border-top: 5px solid white; /*Highlighted color*/
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  from {
+    transform: rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(360deg);
+  }
+}

@@ -1,4 +1,6 @@
+import { ImageEditProvider } from "../../context/ImageEditProvider";
 import { useEdit } from "../../hooks/useEdit";
+import ImageEdit from "./ImageEdit";
 import SelectEdit from "./SelectEdit";
 import TextEdit from "./TextEdit";
 
@@ -9,7 +11,6 @@ interface DataMatcher {
 
 // TODO Add ImageEdit component -> replaces img
 // TODO Add ArrayEdit component
-// TODO Add TextEdit component
 
 /**
  * This function expects a items, it decides on component based on type
@@ -29,13 +30,10 @@ export default function EditTableItem({
 
   const getInput = (item: any, prop: string) => {
     if (prop === "images") {
-      // ImageEdit
       return (
-        <div className="images">
-          {item[prop].map((imgUrl: string) => (
-            <img src={imgUrl} />
-          ))}
-        </div>
+        <ImageEditProvider productId={item._id}>
+          <ImageEdit item={item} prop={prop} />
+        </ImageEditProvider>
       );
     } else if (item[prop] instanceof Array) {
       // EditArray
@@ -57,19 +55,23 @@ export default function EditTableItem({
   };
   return (
     <tr key={item._id}>
-      {Object.keys(item).map((p) => (
-        <td
-          onClick={() => {
-            setEdit(item, p);
-          }}
-          onChange={() => {
-            send();
-          }}
-          className={disabledProps.includes(p) ? "disabled" : ""}
-        >
-          {getInput(item, p)}
-        </td>
-      ))}
+      {Object.keys(item).map((p) => {
+        return (
+          <td
+            onChange={() => {
+              send();
+            }}
+            className={disabledProps.includes(p) ? "disabled" : ""}
+          >
+            <div
+              tabIndex={disabledProps.includes(p) ? -1 : 1}
+              onFocus={() => !disabledProps.includes(p) && setEdit(item, p)}
+            >
+              {getInput(item, p)}
+            </div>
+          </td>
+        );
+      })}
     </tr>
   );
 }
