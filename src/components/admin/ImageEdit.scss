@@ -1,31 +1,34 @@
 .images {
   display: flex;
-  min-width: 300px;
+  min-width: 500px;
   justify-content: center;
-  img {
+  align-items: center;
+  & > img, & > .image-container {
     width: 50px;
     height: 50px;
     background-color: white;
-    background-color: white;
     border: 1px solid black;
-    margin-right: -25px;
+    margin-right: -15px;
     transition: 100ms;
+    &:hover, &:focus {
+      scale: 1.5;
+      margin: 2em;
+    }
   }
   @for $i from 1 through 10 {
     img:nth-child(#{$i}) {
       z-index: #{10 - $i};
     }
   }
-
-  &:hover {
-    img {
-      margin: 0;
-      transition: 100ms;
-    }
-  }
 }
 .image-container {
   position: relative;
+  width: 50px;
+  height: 50px;
+  img{
+    width: 100%;
+    height: 100%;
+  }
   img:not(.cover) {
     filter: blur(2px);
   }
@@ -37,4 +40,3 @@
     background-color: transparent;
   }
 }
-

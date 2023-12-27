@@ -11,12 +11,16 @@ export default function ImagesEdit({
   prop: string;
 }) {
   const { editProp, editItem } = useEdit();
-  const { staged, urls } = useImages();
+  const { staged, urls, deleteImage } = useImages();
 
   let items = urls.map((imageUrl: string) => <ImagesEditItem url={imageUrl} />);
   if (editItem?._id === item._id && editProp === prop) {
     items = urls.map((imageUrl: string) => (
-      <ImagesEditItem url={imageUrl} editable />
+      <ImagesEditItem
+        url={imageUrl}
+        editable
+        deleteImageCallback={() => deleteImage(urls.indexOf(imageUrl))}
+      />
     ));
     items.unshift(<ImageUpload />);
   }

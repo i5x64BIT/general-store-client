@@ -1,9 +1,8 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent } from "react";
 import useImages from "../../hooks/useImages";
+import "./ImageUpload.scss";
 
 export default function ImageUploader() {
-  const [isOpen, setIsOpen] = useState(false);
-  const fileInputRef = useRef(null);
   const { uploadImage } = useImages();
 
   const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
@@ -14,23 +13,14 @@ export default function ImageUploader() {
       }
     }
   };
-
-  const button = (
-    <img src="/public/plus.svg" onClick={() => setIsOpen(!isOpen)} />
-  );
-  return isOpen ? (
-    <div>
-      {button}
+  return (
+    <div className="image-upload">
       <form>
-        <input
-          type="file"
-          multiple
-          ref={fileInputRef}
-          onChange={handleUpload}
-        />
+        <label htmlFor="image-upload">
+          <img src="/public/plus.svg"/>
+          <input id="image-upload"type="file" multiple onChange={handleUpload} />
+        </label>
       </form>
     </div>
-  ) : (
-    button
   );
 }

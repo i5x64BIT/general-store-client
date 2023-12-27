@@ -33,6 +33,21 @@ export default function useImages() {
     setUrls((prevUrls) => [...prevUrls, uploadedUrl]);
     setStaged((prevStaged) => prevStaged.filter((s) => s !== fileUrl));
   };
+  const deleteImage = async (imageIndex: number) => {
+    const res = await fetch(
+      `http://localhost:3030/api/v1/products/${productId}/image/${imageIndex}`,
+      {
+        method: "DELETE",
+        headers,
+      }
+    );
+    if (res.ok) {
+      setUrls((prevUrls) => [
+        ...prevUrls.slice(0, imageIndex),
+        ...prevUrls.slice(imageIndex + 1),
+      ]);
+    }
+  };
 
-  return { urls, staged, uploadImage };
+  return { urls, staged, uploadImage, deleteImage };
 }

@@ -1,4 +1,9 @@
 import "./Spinner.scss";
-export default function Spinner() {
-  return <div className="spinner cover"></div>;
+export default function Spinner({ color }: { color?: string }) {
+  return (
+    <div
+      className="spinner cover"
+      style={color ? { borderColor: `${color} white ${color} ${color}` } : {}}
+    ></div>
+  );
 }

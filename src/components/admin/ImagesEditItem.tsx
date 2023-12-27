@@ -5,18 +5,21 @@ export default function ImagesEditItem({
   url,
   loading,
   editable,
+  deleteImageCallback,
 }: {
   url: string;
   loading?: boolean;
   editable?: boolean;
+  deleteImageCallback?: () => Promise<void>;
 }) {
   const [hover, setHover] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
 
-  if (loading)
+  if (loading || isDelete)
     return (
       <div className="image-container">
         <img src={url} alt="" />
-        <Spinner />
+        <Spinner color={isDelete ? "red" : ""} />
       </div>
     );
   if (editable) {
@@ -27,7 +30,19 @@ export default function ImagesEditItem({
         onMouseOut={() => setHover(false)}
       >
         <img src={url} />
-        <img src="/public/trash.svg" className="cover" />
+        <img
+          src="/public/trash.svg"
+          className="cover"
+          onClick={() => {
+            setIsDelete(true);
+            if (deleteImageCallback)
+              deleteImageCallback().then(() => setIsDelete(false));
+            else
+              throw new TypeError(
+                "MissingCallback: a deleteImage callback was not passed"
+              );
+          }}
+        />
       </div>
     ) : (
       <img src={url} onMouseEnter={() => setHover(true)} />
