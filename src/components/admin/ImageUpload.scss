@@ -1,0 +1,17 @@
+.image-upload {
+  label {
+    svg {
+      background-color: transparent;
+      width: 25px;
+      height: 25px;
+      border: none;
+      cursor: pointer;
+      &:hover {
+        rotate: 180deg;
+      }
+    }
+  }
+  input {
+    display: none;
+  }
+}

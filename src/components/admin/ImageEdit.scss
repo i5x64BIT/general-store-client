@@ -1,0 +1,58 @@
+.images {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .image-container {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border: 1px solid black;
+    transition: 100ms ease;
+    margin-right: -25px;
+    &:last-child {
+      margin-right: 0;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      &.loading {
+        filter: blur(4px);
+      }
+    }
+    &:hover {
+      transform: scale(2);
+      margin: 0 2em 0 calc(2em + 15px);
+    }
+    .cover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      &.trash {
+        z-index: 1;
+        width: 25%;
+        height: 25%;
+        background-color: red;
+        fill: white;
+        transition: 80ms linear;
+        &:hover {
+          background-color: rgb(231, 126, 126);
+          fill: black;
+        }
+        padding: 2px;
+        border-radius: 50%;
+      }
+      &.spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+      }
+    }
+  }
+  @for $i from 1 through 10 {
+    img:nth-child(#{$i}) {
+      z-index: #{10 - $i};
+    }
+  }
+}

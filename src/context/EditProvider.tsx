@@ -6,6 +6,7 @@ interface IEditContext {
   setEdit: (item: Object, prop: string) => void;
   change: (prop: string, value: any) => void;
   send: () => void;
+  reset: () => void;
 }
 export const EditContext = createContext({} as IEditContext);
 
@@ -13,6 +14,10 @@ export function EditProvider({ children }: PropsWithChildren) {
   const [editItem, setEditItem] = useState<any>(null);
   const [prop, setProp] = useState("");
 
+  const reset = () => {
+    setEditItem(null);
+    setProp("");
+  };
   const change = (prop: string, value: any) => {
     if (!editItem)
       throw new TypeError(
@@ -32,7 +37,7 @@ export function EditProvider({ children }: PropsWithChildren) {
   };
   return (
     <EditContext.Provider
-      value={{ editItem, editProp: prop, change, send, setEdit }}
+      value={{ editItem, editProp: prop, change, send, setEdit, reset }}
     >
       {children}
     </EditContext.Provider>

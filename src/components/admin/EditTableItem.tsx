@@ -1,4 +1,6 @@
+import { ImageEditProvider } from "../../context/ImageEditProvider";
 import { useEdit } from "../../hooks/useEdit";
+import ImageEdit from "./ImageEdit";
 import SelectEdit from "./SelectEdit";
 import TextEdit from "./TextEdit";
 
@@ -9,7 +11,6 @@ interface DataMatcher {
 
 // TODO Add ImageEdit component -> replaces img
 // TODO Add ArrayEdit component
-// TODO Add TextEdit component
 
 /**
  * This function expects a items, it decides on component based on type
@@ -27,15 +28,12 @@ export default function EditTableItem({
   const { setEdit, send } = useEdit();
   const disabledProps = ["_id"];
 
-  const getInput = (item: any, prop: string) => {
+  const getInput = (item: any, prop: string, key: string) => {
     if (prop === "images") {
-      // ImageEdit
       return (
-        <div className="images">
-          {item[prop].map((imgUrl: string) => (
-            <img src={imgUrl} />
-          ))}
-        </div>
+        <ImageEditProvider productId={item._id}>
+          <ImageEdit key={key} item={item} prop={prop} />
+        </ImageEditProvider>
       );
     } else if (item[prop] instanceof Array) {
       // EditArray
@@ -49,27 +47,33 @@ export default function EditTableItem({
         <SelectEdit
           item={item}
           prop={prop}
+          key={key}
           fetchCallback={match?.fetchCallback}
           displayPropName={match?.fieldNameInNested}
         />
       );
-    } else return <TextEdit item={item} prop={prop} />;
+    } else return <TextEdit key={key} item={item} prop={prop} />;
   };
   return (
     <tr key={item._id}>
-      {Object.keys(item).map((p) => (
-        <td
-          onClick={() => {
-            setEdit(item, p);
-          }}
-          onChange={() => {
-            send();
-          }}
-          className={disabledProps.includes(p) ? "disabled" : ""}
-        >
-          {getInput(item, p)}
-        </td>
-      ))}
+      {Object.keys(item).map((p) => {
+        return (
+          <td
+            key={item._id + p}
+            onChange={() => {
+              send();
+            }}
+            className={disabledProps.includes(p) ? "disabled" : ""}
+          >
+            <div
+              tabIndex={disabledProps.includes(p) ? -1 : 1}
+              onFocus={() => !disabledProps.includes(p) && setEdit(item, p)}
+            >
+              {getInput(item, p, item._id + p + "input")}
+            </div>
+          </td>
+        );
+      })}
     </tr>
   );
 }
