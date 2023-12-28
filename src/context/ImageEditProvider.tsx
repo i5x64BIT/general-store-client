@@ -7,13 +7,13 @@ import {
   useState,
 } from "react";
 import useAuth from "../hooks/useAuth";
-
+type StagedType = { fileUrl: string; status: "loading" | "failed" };
 type ImageEditContextType = {
   productId: string;
   urls: string[];
   setUrls: Dispatch<SetStateAction<string[]>>;
-  staged: string[];
-  setStaged: Dispatch<SetStateAction<string[]>>;
+  staged: StagedType[];
+  setStaged: Dispatch<SetStateAction<StagedType[]>>;
 };
 export const ImageEditContext = createContext<ImageEditContextType>(
   {} as ImageEditContextType
@@ -27,7 +27,7 @@ export function ImageEditProvider({
   productId: string;
 }) {
   const [urls, setUrls] = useState<string[]>([]);
-  const [staged, setStaged] = useState<string[]>([]);
+  const [staged, setStaged] = useState<StagedType[]>([]);
   const { headers } = useAuth();
 
   useEffect(() => {

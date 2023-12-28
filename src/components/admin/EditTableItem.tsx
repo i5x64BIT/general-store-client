@@ -28,11 +28,11 @@ export default function EditTableItem({
   const { setEdit, send } = useEdit();
   const disabledProps = ["_id"];
 
-  const getInput = (item: any, prop: string) => {
+  const getInput = (item: any, prop: string, key: string) => {
     if (prop === "images") {
       return (
         <ImageEditProvider productId={item._id}>
-          <ImageEdit item={item} prop={prop} />
+          <ImageEdit key={key} item={item} prop={prop} />
         </ImageEditProvider>
       );
     } else if (item[prop] instanceof Array) {
@@ -47,17 +47,19 @@ export default function EditTableItem({
         <SelectEdit
           item={item}
           prop={prop}
+          key={key}
           fetchCallback={match?.fetchCallback}
           displayPropName={match?.fieldNameInNested}
         />
       );
-    } else return <TextEdit item={item} prop={prop} />;
+    } else return <TextEdit key={key} item={item} prop={prop} />;
   };
   return (
     <tr key={item._id}>
       {Object.keys(item).map((p) => {
         return (
           <td
+            key={item._id + p}
             onChange={() => {
               send();
             }}
@@ -67,7 +69,7 @@ export default function EditTableItem({
               tabIndex={disabledProps.includes(p) ? -1 : 1}
               onFocus={() => !disabledProps.includes(p) && setEdit(item, p)}
             >
-              {getInput(item, p)}
+              {getInput(item, p, item._id + p + "input")}
             </div>
           </td>
         );
